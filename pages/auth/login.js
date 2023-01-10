@@ -4,6 +4,7 @@ import styles from "../../styles/Register.module.css";
 import "bootstrap/dist/css/bootstrap.css";
 import isEmail from "validator/lib/isEmail";
 import axios from "axios";
+import config from "../../config";
 
 const login = () => {
   const [data, setData] = useState({
@@ -35,7 +36,7 @@ const login = () => {
   const postData = () => {
     setIsLoading(true);
     axios
-      .post("http://localhost:8080/clusters/create", data)
+      .post(`${config.backendUrl}/clusters/create`, data)
       .then((res) => {
         setIsLoading(false);
         console.log(res.data);
