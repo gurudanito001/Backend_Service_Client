@@ -3,6 +3,7 @@ import { useState } from "react";
 import styles from "../../styles/Register.module.css";
 import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
+import Navbar from "../static/navbar"
 
 const resetPassword = () => {
   const [data, setData] = useState({
@@ -12,6 +13,7 @@ const resetPassword = () => {
   });
   console.log(data);
   const [isLoading, setIsLoading] = useState(null);
+  const [apiMessage, setApiMessgae] = useState("");
   let [errors, setErrors] = useState({});
 
   const handleChange = (prop) => (event) => {
@@ -45,6 +47,7 @@ const resetPassword = () => {
       .catch((error) => {
         setIsLoading(false);
         console.log(error.response.data || error.message);
+        setApiMessgae(error.response.data || error.message);
       });
   };
 
@@ -58,6 +61,11 @@ const resetPassword = () => {
   };
 
   return (
+    <>
+    <Navbar />
+    {apiMessage &&   (<div class="alert alert-primary" role="alert">
+        {apiMessage}
+      </div>)}
     <div className={styles.container}>
       <form className={styles.form}>
         <div className="my-3">
@@ -110,6 +118,8 @@ const resetPassword = () => {
         </div>
       </form>
     </div>
+    </>
+    
   );
 };
 

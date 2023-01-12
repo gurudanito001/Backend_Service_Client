@@ -2,6 +2,7 @@ import styles from "../../styles/Register.module.css";
 import "bootstrap/dist/css/bootstrap.css";
 import isEmail from "validator/lib/isEmail";
 import axios from "axios";
+import Navbar from "../static/navbar"
 
 import { useState } from "react";
 
@@ -14,8 +15,8 @@ const Register = () => {
     multi_tenant: false,
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [apiMessage, setApiMessgae] = useState("");
   let [errors, setErrors] = useState({});
- 
 
   const handleChange = (prop) => (event) => {
     setData((prevState) => ({
@@ -60,6 +61,7 @@ const Register = () => {
       .catch((error) => {
         setIsLoading(false);
         console.log(error.response.data || error.message);
+        setApiMessgae(error.response.data || error.message);
       });
   };
 
@@ -73,117 +75,125 @@ const Register = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <form className={styles.form}>
-        <div className="mb-3">
-          <label
-            htmlFor="exampleFormControlInput1"
-            className="form-label small fw-bold"
-          >
-            Application Name
-          </label>
-          <input
-            type="text"
-            value={data.name}
-            onChange={handleChange("name")}
-            className="form-control"
-            id="exampleFormControlInput1"
-            placeholder="Name of Application / Project"
-          />
-          <div className="small text-danger fw-light">{errors.name}</div>
-        </div>
-        <div className="mb-3">
-          <label
-            htmlFor="exampleFormControlTextarea1"
-            className="form-label small fw-bold"
-          >
-            Description
-          </label>
-          <textarea
-            value={data.description}
-            onChange={handleChange("description")}
-            className="form-control"
-            id="exampleFormControlTextarea1"
-            rows="3"
-          ></textarea>
-          <div className="small text-danger fw-light">{errors.description}</div>
-        </div>
-        <div className="form-check form-switch">
-          <input
-            className="form-check-input"
-            value={data.multi_tenant}
-            onChange={handleChangeSwitch}
-            type="checkbox"
-            role="switch"
-            id="flexSwitchCheckChecked"
-          />
-          <label
-            className="form-check-label small fw-bold"
-            htmlFor="flexSwitchCheckChecked"
-          >
-            Multi-User
-          </label>
-          <div className="small text-danger fw-light">
-            {errors.multi_tenant}
+    <>
+    <Navbar />
+    {apiMessage &&   (<div class="alert alert-primary" role="alert">
+        {apiMessage}
+      </div>)}
+      <div className={styles.container}>
+        <form className={styles.form}>
+          <div className="mb-3">
+            <label
+              htmlFor="exampleFormControlInput1"
+              className="form-label small fw-bold"
+            >
+              Application Name
+            </label>
+            <input
+              type="text"
+              value={data.name}
+              onChange={handleChange("name")}
+              className="form-control"
+              id="exampleFormControlInput1"
+              placeholder="Name of Application / Project"
+            />
+            <div className="small text-danger fw-light">{errors.name}</div>
           </div>
-        </div>
-        {data.multi_tenant ? (
-          <div className={styles.smallFont}>
-            Your Frontend Application will have more than one user. It will
-            require User Authentication flow.
+          <div className="mb-3">
+            <label
+              htmlFor="exampleFormControlTextarea1"
+              className="form-label small fw-bold"
+            >
+              Description
+            </label>
+            <textarea
+              value={data.description}
+              onChange={handleChange("description")}
+              className="form-control"
+              id="exampleFormControlTextarea1"
+              rows="3"
+            ></textarea>
+            <div className="small text-danger fw-light">
+              {errors.description}
+            </div>
           </div>
-        ) : (
-          <div className={styles.smallFont}>
-            Your Frontend Application does not require multi-user access. There
-            is no need for User Authentication.
+          <div className="form-check form-switch">
+            <input
+              className="form-check-input"
+              value={data.multi_tenant}
+              onChange={handleChangeSwitch}
+              type="checkbox"
+              role="switch"
+              id="flexSwitchCheckChecked"
+            />
+            <label
+              className="form-check-label small fw-bold"
+              htmlFor="flexSwitchCheckChecked"
+            >
+              Multi-User
+            </label>
+            <div className="small text-danger fw-light">
+              {errors.multi_tenant}
+            </div>
           </div>
-        )}
+          {data.multi_tenant ? (
+            <div className={styles.smallFont}>
+              Your Frontend Application will have more than one user. It will
+              require User Authentication flow.
+            </div>
+          ) : (
+            <div className={styles.smallFont}>
+              Your Frontend Application does not require multi-user access.
+              There is no need for User Authentication.
+            </div>
+          )}
 
-        <div className="my-3">
-          <label
-            htmlFor="exampleFormControlInput1"
-            className="form-label small fw-bold"
-          >
-            Email
-          </label>
-          <input
-            type="email"
-            value={data.email}
-            onChange={handleChange("email")}
-            className="form-control"
-            id="exampleFormControlInput1"
-          />
-          <div className="small text-danger fw-light">{errors.email}</div>
-        </div>
-        <div className="mb-3">
-          <label
-            htmlFor="exampleFormControlInput1"
-            className="form-label small fw-bold"
-          >
-            Password
-          </label>
-          <input
-            type="password"
-            value={data.password}
-            onChange={handleChange("password")}
-            className="form-control"
-            id="exampleFormControlInput1"
-          />
-          <div className="small text-danger fw-light">{errors.password}</div>
-        </div>
+          <div className="my-3">
+            <label
+              htmlFor="exampleFormControlInput1"
+              className="form-label small fw-bold"
+            >
+              Email
+            </label>
+            <input
+              type="email"
+              value={data.email}
+              onChange={handleChange("email")}
+              className="form-control"
+              id="exampleFormControlInput1"
+            />
+            <div className="small text-danger fw-light">{errors.email}</div>
+          </div>
+          <div className="mb-3">
+            <label
+              htmlFor="exampleFormControlInput1"
+              className="form-label small fw-bold"
+            >
+              Password
+            </label>
+            <input
+              type="password"
+              value={data.password}
+              onChange={handleChange("password")}
+              className="form-control"
+              id="exampleFormControlInput1"
+            />
+            <div className="small text-danger fw-light">{errors.password}</div>
+          </div>
 
-        <div className="mb-3 mt-4 d-grid gap-2">
-          <button
-            type="button"
-            disabled={isLoading}
-            onClick={handleSubmit}
-            className="btn btn-block btn-primary"
-          >
-            {isLoading ? "Registering" : "Register"}
-          </button>
-        </div>
-      </form>
-    </div>
+          <div className="mb-3 mt-4 d-grid gap-2">
+            <button
+              type="button"
+              disabled={isLoading}
+              onClick={handleSubmit}
+              className="btn btn-block btn-primary"
+            >
+              {isLoading ? "Registering" : "Register"}
+            </button>
+          </div>
+        </form>
+      </div>
+    </>
   );
 };
 
