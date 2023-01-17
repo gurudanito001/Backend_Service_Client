@@ -3,9 +3,10 @@ import { useState } from "react";
 import styles from "../../styles/Register.module.css";
 import "bootstrap/dist/css/bootstrap.css";
 import isEmail from "validator/lib/isEmail";
+import Link from "next/link";
 import axios from "axios";
 import config from "../../config";
-import Navbar from "../static/navbar"
+import Navbar from "../static/navbar";
 
 const login = () => {
   const [data, setData] = useState({
@@ -61,12 +62,16 @@ const login = () => {
 
   return (
     <>
-  <Navbar />
-  {apiMessage &&   (<div class="alert alert-primary" role="alert">
-        {apiMessage}
-      </div>)}
+      <Navbar />
+      {apiMessage && (
+        <div class="alert alert-primary" role="alert">
+          {apiMessage}
+        </div>
+      )}
+
       <div className={styles.container}>
         <form className={styles.form}>
+          <h1>Login</h1>
           <div className="my-3">
             <label
               htmlFor="exampleFormControlInput1"
@@ -74,7 +79,7 @@ const login = () => {
             >
               Email
             </label>
-            <input 
+            <input
               type="email"
               value={data.email}
               onChange={handleChange("email")}
@@ -84,7 +89,7 @@ const login = () => {
             <div className="small text-danger fw-light">{errors.email}</div>
           </div>
           <div className="mb-3">
-            <label 
+            <label
               htmlFor="exampleFormControlInput1"
               className="form-label small fw-bold"
             >
@@ -109,6 +114,16 @@ const login = () => {
             >
               {isLoading ? "logging in" : "Login"}
             </button>
+          </div>
+          <div>
+            <Link href="#" className="text-success fw-bold">
+              Forgot Password
+            </Link>{" "}
+            <br />
+            Don't have an account?{" "}
+            <Link href="#" className="text-success fw-bold ">
+              Create Account
+            </Link>
           </div>
         </form>
       </div>

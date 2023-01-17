@@ -55,11 +55,14 @@ const forgotPasword = () => {
   return (
     <>
       <Navbar />
-    {apiMessage &&   (<div class="alert alert-primary" role="alert">
-        {apiMessage}
-      </div>)}
+      {apiMessage && (
+        <div class="alert alert-primary" role="alert">
+          {apiMessage}
+        </div>
+      )}
       <div className={styles.container}>
         <form className={styles.form}>
+        <h1>Register</h1>
           <div className="my-3">
             <label
               htmlFor="exampleFormControlInput1"

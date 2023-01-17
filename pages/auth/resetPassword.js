@@ -3,7 +3,7 @@ import { useState } from "react";
 import styles from "../../styles/Register.module.css";
 import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
-import Navbar from "../static/navbar"
+import Navbar from "../static/navbar";
 
 const resetPassword = () => {
   const [data, setData] = useState({
@@ -62,64 +62,65 @@ const resetPassword = () => {
 
   return (
     <>
-    <Navbar />
-    {apiMessage &&   (<div class="alert alert-primary" role="alert">
-        {apiMessage}
-      </div>)}
-    <div className={styles.container}>
-      <form className={styles.form}>
-        <div className="my-3">
-          <label
-            htmlFor="exampleFormControlInput1"
-            className="form-label small fw-bold"
-          >
-            New Password
-          </label>
-          <input
-            type="password"
-            value={data.newPassword}
-            onChange={handleChange("newPassword")}
-            className="form-control"
-            id="exampleFormControlInput1"
-          />
-          <div className="small text-danger fw-light">{errors.newPassword}</div>
+      <Navbar />
+      {apiMessage && (
+        <div class="alert alert-primary" role="alert">
+          {apiMessage}
         </div>
-
-        <div className="mb-3">
-          <label
-            htmlFor="exampleFormControlInput1"
-            className="form-label small fw-bold"
-          >
-            Confirm Password
-          </label>
-          <input
-            type="password"
-            value={data.confirmPassword}
-            onChange={handleChange("confirmPassword")}
-            className="form-control"
-            id="exampleFormControlInput1"
-          />
-          <div className="small text-danger fw-light">
-            {errors.confirmPassword}
+      )}
+      <div className={styles.container}>
+        <form className={styles.form}>
+          <div className="my-3">
+            <label
+              htmlFor="exampleFormControlInput1"
+              className="form-label small fw-bold"
+            >
+              New Password
+            </label>
+            <input
+              type="password"
+              value={data.newPassword}
+              onChange={handleChange("newPassword")}
+              className="form-control"
+              id="exampleFormControlInput1"
+            />
+            <div className="small text-danger fw-light">
+              {errors.newPassword}
+            </div>
           </div>
-        </div>
 
-      
+          <div className="mb-3">
+            <label
+              htmlFor="exampleFormControlInput1"
+              className="form-label small fw-bold"
+            >
+              Confirm Password
+            </label>
+            <input
+              type="password"
+              value={data.confirmPassword}
+              onChange={handleChange("confirmPassword")}
+              className="form-control"
+              id="exampleFormControlInput1"
+            />
+            <div className="small text-danger fw-light">
+              {errors.confirmPassword}
+            </div>
+          </div>
 
-        <div className="mb-3 mt-4 d-grid gap-2">
-          <button
-            type="button"
-            disabled={isLoading}
-            onClick={handleSubmit}
-            className="btn btn-block btn-primary"
-          >
-            {isLoading ? "Submitting" : "Submit"}
-          </button>
-        </div>
-      </form>
-    </div>
+          <div className="mb-3 mt-4 d-grid gap-2">
+            <button
+              type="button"
+              disabled={isLoading}
+              onClick={handleSubmit}
+              className="btn btn-block btn-primary"
+            >
+              {isLoading ? "Submitting" : "Submit"}
+            </button>
+          </div>
+        </form>
+      </div>
     </>
-    
   );
 };
 

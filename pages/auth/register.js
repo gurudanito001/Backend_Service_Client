@@ -2,7 +2,7 @@ import styles from "../../styles/Register.module.css";
 import "bootstrap/dist/css/bootstrap.css";
 import isEmail from "validator/lib/isEmail";
 import axios from "axios";
-import Navbar from "../static/navbar"
+import Navbar from "../static/navbar";
 
 import { useState } from "react";
 
@@ -76,10 +76,12 @@ const Register = () => {
 
   return (
     <>
-    <Navbar />
-    {apiMessage &&   (<div class="alert alert-primary" role="alert">
-        {apiMessage}
-      </div>)}
+      <Navbar />
+      {apiMessage && (
+        <div class="alert alert-primary" role="alert">
+          {apiMessage}
+        </div>
+      )}
       <div className={styles.container}>
         <form className={styles.form}>
           <div className="mb-3">
