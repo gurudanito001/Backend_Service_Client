@@ -2,10 +2,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
+    "build": "next build -p 3001",
+    "start": "next start -p 3001"
   },
   "dependencies": {
+    "@next/font": "^13.1.6",
     "axios": "^1.2.1",
     "bootstrap": "^5.2.3",
     "next": "^13.1.1",
