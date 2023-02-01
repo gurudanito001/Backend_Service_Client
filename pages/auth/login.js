@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import styles from "../../styles/Register.module.css";
-import "bootstrap/dist/css/bootstrap.css";
+import styles from "../../styles/auth.module.css";
 import isEmail from "validator/lib/isEmail";
 import Link from "next/link";
 import axios from "axios";
@@ -61,73 +60,79 @@ const login = () => {
   };
 
   return (
-    <>
-      <Navbar />
+    <div className={styles.pageContainer}>
+      {/* <Navbar /> */}
       {apiMessage && (
         <div class="alert alert-primary" role="alert">
           {apiMessage}
         </div>
       )}
+      <header className="mt-auto text-center">
+        <a className="navbar-brand fw-bold logoText fs-3 " href="/">
+          Marlayer
+        </a>
+      </header>
+      <form className={styles.form}>
+        <header className="mb-4">
+          <h2 className="text-center mb-2">Login</h2>
+          <p className="text-center">Please Enter Your Email and Password</p>
+        </header>
+        
+        <div className="my-3">
+          <label
+            htmlFor="loginEmailInput"
+            className="form-label small fw-bold"
+          >
+            Email
+          </label>
+          <input
+            type="email"
+            value={data.email}
+            onChange={handleChange("email")}
+            className="form-control"
+            id="loginEmailInput"
+          />
+          <div className="small text-danger fw-light">{errors.email}</div>
+        </div>
+        <div className="mb-3">
+          <label
+            htmlFor="loginPasswordInput"
+            className="form-label small fw-bold"
+          >
+            Password
+          </label>
+          <input
+            type="password"
+            value={data.password}
+            onChange={handleChange("password")}
+            className="form-control"
+            id="loginPasswordInput"
+          />
+          <div className="small text-danger fw-light">{errors.password}</div>
+        </div>
 
-      <div className={styles.container}>
-        <form className={styles.form}>
-          <h1>Login</h1>
-          <div className="my-3">
-            <label
-              htmlFor="exampleFormControlInput1"
-              className="form-label small fw-bold"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              value={data.email}
-              onChange={handleChange("email")}
-              className="form-control"
-              id="exampleFormControlInput1"
-            />
-            <div className="small text-danger fw-light">{errors.email}</div>
-          </div>
-          <div className="mb-3">
-            <label
-              htmlFor="exampleFormControlInput1"
-              className="form-label small fw-bold"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              value={data.password}
-              onChange={handleChange("password")}
-              className="form-control"
-              id="exampleFormControlInput1"
-            />
-            <div className="small text-danger fw-light">{errors.password}</div>
-          </div>
-
-          <div className="mb-3 mt-4 d-grid gap-2">
-            <button
-              type="button"
-              disabled={isLoading}
-              onClick={handleSubmit}
-              className="btn btn-block btn-primary"
-            >
-              {isLoading ? "logging in" : "Login"}
-            </button>
-          </div>
-          <div>
-            <Link href="#" className="text-success fw-bold">
-              Forgot Password
-            </Link>{" "}
-            <br />
-            Don't have an account?{" "}
-            <Link href="#" className="text-success fw-bold ">
-              Create Account
-            </Link>
-          </div>
-        </form>
-      </div>
-    </>
+        <div className="mb-3 mt-5 d-grid gap-2">
+          <button
+            type="button"
+            disabled={isLoading}
+            onClick={handleSubmit}
+            className="btn btn-block btn-primary"
+          >
+            {isLoading ? "logging in" : "Login"}
+          </button>
+        </div>
+        <div className="text-center">
+          <Link href="/auth/forgotPassword" className="text-success fw-bold">
+            Forgot Password
+          </Link>
+          <br />
+          Don't have an account?{" "}
+          <Link href="/auth/register" className="text-success fw-bold ">
+            Create Account
+          </Link>
+        </div>
+      </form>
+    </div>
   );
 };
 

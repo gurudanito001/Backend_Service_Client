@@ -1,5 +1,4 @@
-import "bootstrap/dist/css/bootstrap.css";
-import styles from "../../styles/Register.module.css";
+import styles from "../../styles/auth.module.css";
 import { useState } from "react";
 import Navbar from "../static/navbar";
 import isEmail from "validator/lib/isEmail";
@@ -53,46 +52,55 @@ const forgotPasword = () => {
   };
 
   return (
-    <>
-      <Navbar />
+    <div className={styles.pageContainer}>
+      {/* <Navbar /> */}
       {apiMessage && (
         <div class="alert alert-primary" role="alert">
           {apiMessage}
         </div>
       )}
-      <div className={styles.container}>
-        <form className={styles.form}>
-        <h1>Register</h1>
-          <div className="my-3">
-            <label
-              htmlFor="exampleFormControlInput1"
-              className="form-label small fw-bold"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              value={data.email}
-              onChange={handleChange("email")}
-              className="form-control"
-              id="exampleFormControlInput1"
-            />
-            <div className="small text-danger fw-light">{errors.email}</div>
-          </div>
 
-          <div className="mb-3 mt-4 d-grid gap-2">
-            <button
-              type="button"
-              disabled={isLoading}
-              onClick={handleSubmit}
-              className="btn btn-block btn-primary"
-            >
-              {isLoading ? "Submitting" : "Submit"}
-            </button>
-          </div>
-        </form>
-      </div>
-    </>
+      <header className="mt-auto text-center">
+        <a className="navbar-brand fw-bold logoText fs-3 " href="/">
+          Marlayer
+        </a>
+      </header>
+
+      <form className={styles.form}>
+        <header className="mb-4">
+          <h2 className="text-center mb-2">Forgot Password</h2>
+          <p className="text-center">Please Enter Your Email</p>
+        </header>
+
+        <div className="my-3">
+          <label
+            htmlFor="loginEmailInput"
+            className="form-label small fw-bold"
+          >
+            Email
+          </label>
+          <input
+            type="email"
+            value={data.email}
+            onChange={handleChange("email")}
+            className="form-control"
+            id="loginEmailInput"
+          />
+          <div className="small text-danger fw-light">{errors.email}</div>
+        </div>
+
+        <div className="mb-3 mt-5 d-grid gap-2">
+          <button
+            type="button"
+            disabled={isLoading}
+            onClick={handleSubmit}
+            className="btn btn-block btn-primary"
+          >
+            {isLoading ? "Sending Email" : "Continue"}
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 

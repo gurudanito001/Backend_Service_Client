@@ -1,0 +1,24 @@
+.pageContainer {
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.form {
+  width: min(400px, 650px);
+  padding: 3rem;
+  margin: auto;
+  margin-top: 3rem;
+  color: inherit;
+  background-color: #cfd8dc;
+  text-decoration: none;
+  border: 1px solid #eaeaea;
+  border-radius: 10px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.smallFont {
+  font-size: .7rem;
+  font-weight: 500;
+}

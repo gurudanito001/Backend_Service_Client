@@ -1,13 +1,35 @@
 import React from "react";
 
-const navbar = () => {
+const Navbar = () => {
   return (
-    <>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav className="navbar navbar-expand-lg main-navbar w-100">
         <div className="container">
-          <a className="navbar-brand" href="#">
+          <a className="navbar-brand fw-bold me-5 logoText" href="/">
             Marlayer
           </a>
+          
+          <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div className="navbar-nav me-auto">
+              <a className="nav-item nav-link active p-3" href="#">
+                Docs
+              </a>
+              <a className="nav-item nav-link active p-3" href="#">
+                Showcase
+              </a>
+              <a className="nav-item nav-link active p-3" href="#">
+                Use Cases
+              </a>
+            </div>
+            <div className="navbar-nav ms-auto">
+              <a className="nav-item nav-link active" href="/auth/register">
+                <button className="btn btn-primary">Get Started</button>
+              </a>
+              <a className="nav-item nav-link active" href="/auth/login">
+                <button className="btn btn-success">Login</button>
+              </a>
+            </div>
+          </div>
+
           <button
             className="navbar-toggler"
             type="button"
@@ -19,23 +41,9 @@ const navbar = () => {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div className="navbar-nav ms-auto">
-            <a className="nav-item nav-link active p-3" href="#">
-                docs
-              </a>
-              <a className="nav-item nav-link active" href="#">
-                <button className="btn btn-primary">Get Started</button>
-              </a>
-              <a className="nav-item nav-link active" href="#">
-                <button className="btn btn-success">Login</button>
-              </a>
-            </div>
-          </div>
         </div>
       </nav>
-    </>
   );
 };
 
-export default navbar;
+export default Navbar;
