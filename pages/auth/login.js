@@ -5,7 +5,7 @@ import isEmail from "validator/lib/isEmail";
 import Link from "next/link";
 import axios from "axios";
 import config from "../../config";
-import Navbar from "../static/navbar";
+import { ErrorMessage, SuccessMessage } from "../../components/message";
 
 const login = () => {
   const [data, setData] = useState({
@@ -13,14 +13,22 @@ const login = () => {
     password: "",
   });
   const [isLoading, setIsLoading] = useState(false);
-  const [apiMessage, setApiMessgae] = useState("");
-  let [errors, setErrors] = useState({});
+  const [resendingEmail, setResendingEmail] = useState(false);
+  const [apiMessage, setApiMessage] = useState({
+    success: "",
+    error: ""
+  });
+  const [errors, setErrors] = useState({})
 
   const handleChange = (prop) => (event) => {
     setData((prevState) => ({
       ...prevState,
       [prop]: event.target.value,
     }));
+    setErrors(prevState => ({
+      ...prevState,
+      [prop]: ""
+    }))
   };
 
   const validateData = () => {
@@ -31,22 +39,34 @@ const login = () => {
     if (!isEmail(data.email)) {
       errors.email = "Valid email is required";
     }
-
     return errors;
   };
+
+  const handleSetApiMessage = ({type, message}) =>{
+    setApiMessage(prevState => ({
+      ...prevState,
+      success: "",
+      error: ""
+    }))
+    setApiMessage(prevState => ({
+      ...prevState,
+      [type]: message
+    }))
+  }
 
   const postData = () => {
     setIsLoading(true);
     axios
-      .post(`${config.backendUrl}/clusters/create`, data)
+      .post(`${config.backendUrl}${config.routes.login}`, data)
       .then((res) => {
         setIsLoading(false);
+        handleSetApiMessage({type: "success", message: res?.data?.message})
         console.log(res.data);
       })
       .catch((error) => {
         setIsLoading(false);
-        console.log(error.response.data || error.message);
-        setApiMessgae(error.response.data || error.message);
+        console.log(error);
+        handleSetApiMessage({type: "error", message: error?.response?.data?.message || error?.message});
       });
   };
 
@@ -60,13 +80,14 @@ const login = () => {
   };
 
   return (
-    <div className={styles.pageContainer}>
-      {/* <Navbar /> */}
-      {apiMessage && (
-        <div class="alert alert-primary" role="alert">
-          {apiMessage}
-        </div>
-      )}
+    <div className={`${styles.pageContainer}`}>
+      {apiMessage.success && 
+        <SuccessMessage message={apiMessage.success} onClick={()=>handleSetApiMessage({type: "success", message: ""})} />
+      }
+      {apiMessage.error && 
+        <ErrorMessage message={apiMessage.error} onClick={()=>handleSetApiMessage({type: "error", message: ""})} />
+      }
+      
       <header className="mt-auto text-center">
         <a className="navbar-brand fw-bold logoText fs-3 " href="/">
           Marlayer
@@ -132,6 +153,16 @@ const login = () => {
           </Link>
         </div>
       </form>
+
+      {<div className={`d-flex flex-column align-items-center mx-auto mb-auto mt-3 ${apiMessage.error.toLowerCase() === "email not verified" ? "" : "invisible"}`} style={{width: "min(400px, 650px)"}}>
+        Didn't Receive Verification Email?
+        <button
+          type="button"
+          disabled={resendingEmail}
+          onClick={()=>{}} 
+          className="btn btn-link text-primary p-2">{resendingEmail ? "Sending Email ..." : "Resend Verification Email"}
+        </button>
+      </div>}
     </div>
   );
 };

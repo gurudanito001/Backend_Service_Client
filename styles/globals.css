@@ -26,6 +26,9 @@ body {
 .btn-primary{
   background: #1976d2;
 }
+.text-primary {
+  color: #1976d2;
+}
 .themeFont {
   font-family: "Work Sans";
 }

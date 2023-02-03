@@ -1,14 +1,21 @@
 import styles from "../../styles/auth.module.css";
 import { useState } from "react";
-import Navbar from "../static/navbar";
 import isEmail from "validator/lib/isEmail";
+import config from "../../config";
+import axios from "axios";
+import Link from "next/link";
+import { ErrorMessage, SuccessMessage } from "../../components/message";
+
 
 const forgotPasword = () => {
   const [data, setData] = useState({
     email: "",
   });
   const [isLoading, setIsLoading] = useState(false);
-  const [apiMessage, setApiMessgae] = useState("");
+  const [apiMessage, setApiMessage] = useState({
+    success: "",
+    error: ""
+  });
   let [errors, setErrors] = useState({});
 
   const handleChange = (prop) => (event) => {
@@ -16,6 +23,10 @@ const forgotPasword = () => {
       ...prevState,
       [prop]: event.target.value,
     }));
+    setErrors(prevState => ({
+      ...prevState,
+      [prop]: ""
+    }))
   };
 
   const validateData = () => {
@@ -23,22 +34,34 @@ const forgotPasword = () => {
     if (!isEmail(data.email)) {
       errors.email = "Valid email is required";
     }
-
     return errors;
   };
+
+  const handleSetApiMessage = ({type, message}) =>{
+    setApiMessage(prevState => ({
+      ...prevState,
+      success: "",
+      error: ""
+    }))
+    setApiMessage(prevState => ({
+      ...prevState,
+      [type]: message
+    }))
+  }
 
   const postData = () => {
     setIsLoading(true);
     axios
-      .post("http://localhost:8080/clusters/create", data)
+      .post(`${config.backendUrl}${config.routes.forgotPassword}`, data)
       .then((res) => {
         setIsLoading(false);
+        handleSetApiMessage({type: "success", message: res?.data?.message})
         console.log(res.data);
       })
       .catch((error) => {
         setIsLoading(false);
-        console.log(error.response.data || error.message);
-        setApiMessgae(error.response.data || error.message);
+        console.log(error);
+        handleSetApiMessage({type: "error", message: error?.response?.data?.message || error?.message});
       });
   };
 
@@ -53,12 +76,12 @@ const forgotPasword = () => {
 
   return (
     <div className={styles.pageContainer}>
-      {/* <Navbar /> */}
-      {apiMessage && (
-        <div class="alert alert-primary" role="alert">
-          {apiMessage}
-        </div>
-      )}
+      {apiMessage.success && 
+        <SuccessMessage message={apiMessage.success} onClick={()=>handleSetApiMessage({type: "success", message: ""})} />
+      }
+      {apiMessage.error && 
+        <ErrorMessage message={apiMessage.error} onClick={()=>handleSetApiMessage({type: "error", message: ""})} />
+      }
 
       <header className="mt-auto text-center">
         <a className="navbar-brand fw-bold logoText fs-3 " href="/">
@@ -66,7 +89,7 @@ const forgotPasword = () => {
         </a>
       </header>
 
-      <form className={styles.form}>
+      <form className={`${styles.form} mb-auto`}>
         <header className="mb-4">
           <h2 className="text-center mb-2">Forgot Password</h2>
           <p className="text-center">Please Enter Your Email</p>
@@ -98,6 +121,11 @@ const forgotPasword = () => {
           >
             {isLoading ? "Sending Email" : "Continue"}
           </button>
+        </div>
+        <div className="text-center">
+          <Link href="/auth/login" className="text-success fw-bold ">
+            Login
+          </Link>
         </div>
       </form>
     </div>

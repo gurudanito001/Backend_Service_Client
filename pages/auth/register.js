@@ -2,6 +2,8 @@ import styles from "../../styles/auth.module.css";
 import isEmail from "validator/lib/isEmail";
 import axios from "axios";
 import Link from "next/link";
+import config from "../../config";
+import { ErrorMessage, SuccessMessage } from "../../components/message";
 
 import { useState } from "react";
 
@@ -14,7 +16,10 @@ const Register = () => {
     multi_tenant: false,
   });
   const [isLoading, setIsLoading] = useState(false);
-  const [apiMessage, setApiMessgae] = useState("");
+  const [apiMessage, setApiMessage] = useState({
+    success: "",
+    error: ""
+  });
   let [errors, setErrors] = useState({});
 
   const handleChange = (prop) => (event) => {
@@ -22,19 +27,35 @@ const Register = () => {
       ...prevState,
       [prop]: event.target.value,
     }));
+    setErrors(prevState => ({
+      ...prevState,
+      [prop]: ""
+    }))
   };
 
   const handleChangeSwitch = () => {
     setData((prevState) => ({
       ...prevState,
-      multi_tenant: !prevState.multi_tenant,
+      multi_tenant: !prevState?.multi_tenant,
     }));
   };
+
+  const handleSetApiMessage = ({type, message}) =>{
+    setApiMessage(prevState => ({
+      ...prevState,
+      success: "",
+      error: ""
+    }))
+    setApiMessage(prevState => ({
+      ...prevState,
+      [type]: message
+    }))
+  }
 
   const validateData = () => {
     let errors = {};
     if (!data.name) {
-      errors.name = "Cluster Name is Required";
+      errors.name = "Application/Project Name is Required";
     }
     if (data.password.length < 8) {
       errors.password = "8 character long password is required";
@@ -52,15 +73,16 @@ const Register = () => {
   const postData = () => {
     setIsLoading(true);
     axios
-      .post("http://localhost:8080/clusters/create", data)
+      .post(`${config.backendUrl}${config.routes.register}`, data)
       .then((res) => {
         setIsLoading(false);
+        handleSetApiMessage({type: "success", message: res.data.message})
         console.log(res.data);
       })
       .catch((error) => {
         setIsLoading(false);
-        console.log(error.response.data || error.message);
-        setApiMessgae(error.response.data || error.message);
+        handleSetApiMessage({type: "error", message: error?.response?.data?.message || error?.message});
+        console.log(error);
       });
   };
 
@@ -76,18 +98,18 @@ const Register = () => {
   return (
 
     <div className={styles.pageContainer}>
-      {/* <Navbar /> */}
-      {apiMessage && (
-        <div class="alert alert-primary" role="alert">
-          {apiMessage}
-        </div>
-      )}
+      {apiMessage.success && 
+        <SuccessMessage message={apiMessage.success} onClick={()=>handleSetApiMessage({type: "success", message: ""})} />
+      }
+      {apiMessage.error && 
+        <ErrorMessage message={apiMessage.error} onClick={()=>handleSetApiMessage({type: "error", message: ""})} />
+      }
       <header className="mt-auto text-center">
         <a className="navbar-brand fw-bold logoText fs-3 " href="/">
           Marlayer
         </a>
       </header>
-      <form className={styles.form}>
+      <form className={`${styles.form} mb-auto`}>
         <header className="mb-4">
           <h2 className="text-center mb-2">Register</h2>
           <p className="text-center">Please Fill the Form Below</p>
