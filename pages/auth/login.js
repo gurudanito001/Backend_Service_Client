@@ -66,7 +66,7 @@ const login = () => {
       .catch((error) => {
         setIsLoading(false);
         console.log(error);
-        handleSetApiMessage({type: "error", message: error?.response?.data?.message || error?.message});
+        handleSetApiMessage({type: "error", message: error?.response?.data?.message});
       });
   };
 

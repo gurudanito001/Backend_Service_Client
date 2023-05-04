@@ -13,25 +13,7 @@ body {
   
   font-size: .9rem;
 }
-.main-navbar {
-  background: #cfd8dc;
-}
-.logoText {
-  font-family: "Alegreya Sans SC";
-}
-.btn{
-  font-size: .9rem;
-  padding: .7rem 3rem;
-}
-.btn-primary{
-  background: #1976d2;
-}
-.text-primary {
-  color: #1976d2;
-}
-.themeFont {
-  font-family: "Work Sans";
-}
+
 
 a {
   color: inherit;
@@ -62,6 +44,26 @@ ul {
 button {
   padding: 0.9rem 1.5rem;
   font-weight: bold;
+}
+
+.main-navbar {
+  background: #cfd8dc;
+}
+.logoText {
+  font-family: "Alegreya Sans SC";
+}
+.btn{
+  font-size: .9rem;
+  padding: .7rem 3rem;
+}
+.btn-primary{
+  background: #1976d2;
+}
+.text-primary {
+  color: #1976d2;
+}
+.themeFont {
+  font-family: "Work Sans";
 }
 
 /*  UTILITY COLOR CLASSES   */
